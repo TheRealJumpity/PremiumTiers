@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Tiers • Minecraft PvP Rankings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+        
+        :root {
+            --primary: #22d3ee;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .pixel-font {
+            font-family: 'Press Start 2P', sans-serif;
+        }
+        
+        .minecraft-bg {
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                url('https://picsum.photos/id/1015/1920/1080');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .tier-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tier-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 30px -5px rgb(34 211 238);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #22d3ee;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .leaderboard-row {
+            transition: all 0.2s ease;
+        }
+        
+        .leaderboard-row:hover {
+            background-color: rgba(34, 211, 238, 0.1);
+            transform: scale(1.01);
+        }
+        
+        .glow-cyan {
+            text-shadow: 0 0 20px #22d3ee;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white minecraft-bg min-h-screen">
+    <!-- HEADER -->
+    <header class="border-b border-cyan-500/30 bg-black/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl flex items-center justify-center text-3xl font-bold pixel-font border-2 border-white/80">
+                    P
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tighter pixel-font glow-cyan">PREMIUM TIERS</h1>
+                    <p class="text-xs text-cyan-400 -mt-1">v2.0 • ELITE PVP RANKINGS</p>
+                </div>
+            </div>
+            
+            <nav class="flex items-center gap-8 text-sm font-medium">
+                <a href="#" onclick="switchTab(0)" class="nav-link text-cyan-400">LEADERBOARDS</a>
+                <a href="#" onclick="switchTab(1)" class="nav-link">PLAYERS</a>
+                <a href="#" onclick="switchTab(2)" class="nav-link">MODES</a>
+                <a href="#" onclick="switchTab(3)" class="nav-link">STATS</a>
+                <button onclick="toggleDiscordPanel()" 
+                        class="px-5 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg flex items-center gap-2 hover:brightness-110 transition">
+                    <i class="fab fa-discord"></i>
+                    <span>DISCORD SYNC</span>
+                </button>
+            </nav>
+            
+            <div class="flex items-center gap-4">
+                <div class="bg-zinc-900 px-4 py-2 rounded-2xl text-sm border border-cyan-500/20 flex items-center gap-2">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span>1,247 Online</span>
+                </div>
+                <input id="searchInput" 
+                       type="text" 
+                       placeholder="Search players..." 
+                       onkeyup="searchPlayers(event)"
+                       class="bg-zinc-900 border border-cyan-500/30 focus:border-cyan-400 rounded-2xl px-5 py-3 w-80 text-sm outline-none transition">
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- HERO -->
+        <div class="mb-12 bg-gradient-to-r from-zinc-900 to-black border border-cyan-500/30 rounded-3xl p-10 flex items-center gap-10">
+            <div class="flex-1">
+                <div class="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-400 px-4 py-1.5 rounded-full text-sm mb-4">
+                    <i class="fas fa-crown"></i>
+                    SEASON 8 • LIVE
+                </div>
+                <h2 class="text-6xl font-bold pixel-font leading-none mb-4">PREMIUM<br>TIERS v2.0</h2>
+                <p class="text-xl text-zinc-400 max-w-md">The ultimate competitive Minecraft PvP ranking system. Syncs instantly with Discord.</p>
+                
+                <div class="mt-8 flex gap-4">
+                    <button onclick="switchTab(0)" 
+                            class="px-8 py-4 bg-white text-black font-semibold rounded-2xl hover:bg-cyan-400 transition flex items-center gap-3">
+                        <i class="fas fa-trophy"></i>
+                        VIEW LEADERBOARDS
+                    </button>
+                    <button onclick="showHowToJoin()" 
+                            class="px-8 py-4 border border-white/50 hover:border-white rounded-2xl transition">
+                        How to Join
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 grid grid-cols-3 gap-4">
+                <div class="tier-card bg-gradient-to-br from-amber-500 to-yellow-600 p-6 rounded-3xl text-center">
+                    <div class="text-5xl mb-2">👑</div>
+                    <div class="text-sm font-mono">HYPER TIER</div>
+                    <div class="text-4xl font-bold">HT5</div>
+                </div>
+                <div class="tier-card bg-gradient-to-br from-purple-500 to-violet-600 p-6 rounded-3xl text-center">
+                    <div class="text-5xl mb-2">⭐</div>
+                    <div class="text-sm font-mono">LEGEND</div>
+                    <div class="text-4xl font-bold">LT3</div>
+                </div>
+                <div class="tier-card bg-gradient-to-br from-cyan-500 to-blue-600 p-6 rounded-3xl text-center">
+                    <div class="text-5xl mb-2">⚡</div>
+                    <div class="text-sm font-mono">ACE</div>
+                    <div class="text-4xl font-bold">AT4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div id="tabContent">
+            <!-- LEADERBOARDS TAB (Default) -->
+            <div id="tab0" class="tab-pane">
+                <div class="flex justify-between items-end mb-6">
+                    <h2 class="text-4xl font-bold pixel-font">GLOBAL LEADERBOARD</h2>
+                    
+                    <div class="flex gap-2 bg-zinc-900 p-1 rounded-2xl">
+                        <button onclick="filterRegion(this)" class="active-tab px-6 py-2 rounded-xl text-sm">ALL REGIONS</button>
+                        <button onclick="filterRegion(this)" class="px-6 py-2 rounded-xl text-sm">NA</button>
+                        <button onclick="filterRegion(this)" class="px-6 py-2 rounded-xl text-sm">EU</button>
+                        <button onclick="filterRegion(this)" class="px-6 py-2 rounded-xl text-sm">ASIA</button>
+                    </div>
+                </div>
+                
+                <!-- Mode Selector -->
+                <div class="flex gap-3 mb-8 overflow-x-auto pb-4">
+                    <button onclick="selectMode(this, 'overall')" class="mode-btn active px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center gap-3 min-w-fit">
+                        <span class="text-2xl">🌍</span>
+                        <div>
+                            <div class="font-semibold">Overall</div>
+                            <div class="text-xs text-emerald-400">Combined</div>
+                        </div>
+                    </button>
+                    <!-- Add more modes similar to MCTiers -->
+                    <button onclick="selectMode(this, 'sword')" class="mode-btn px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center gap-3 min-w-fit">
+                        <span class="text-2xl">⚔️</span>
+                        <div>
+                            <div class="font-semibold">Sword</div>
+                        </div>
+                    </button>
+                    <button onclick="selectMode(this, 'pot')" class="mode-btn px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center gap-3 min-w-fit">
+                        <span class="text-2xl">🧪</span>
+                        <div>
+                            <div class="font-semibold">PotPvP</div>
+                        </div>
+                    </button>
+                    <button onclick="selectMode(this, 'uhc')" class="mode-btn px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center gap-3 min-w-fit">
+                        <span class="text-2xl">🍎</span>
+                        <div>
+                            <div class="font-semibold">UHC</div>
+                        </div>
+                    </button>
+                    <button onclick="selectMode(this, 'smp')" class="mode-btn px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center gap-3 min-w-fit">
+                        <span class="text-2xl">🏠</span>
+                        <div>
+                            <div class="font-semibold">SMP</div>
+                        </div>
+                    </button>
+                </div>
+                
+                <!-- Leaderboard Table -->
+                <div class="bg-zinc-900/70 backdrop-blur border border-cyan-500/20 rounded-3xl overflow-hidden">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-white/10 text-xs uppercase tracking-widest text-zinc-400">
+                                <th class="text-left py-6 px-8 w-16">#</th>
+                                <th class="text-left py-6 px-8">PLAYER</th>
+                                <th class="text-center py-6 px-8">TIER</th>
+                                <th class="text-center py-6 px-8">POINTS</th>
+                                <th class="text-center py-6 px-8">REGION</th>
+                                <th class="text-right py-6 px-8">LAST PLAYED</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody" class="text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Other tabs hidden by default -->
+            <div id="tab1" class="tab-pane hidden">Player Profiles coming soon...</div>
+            <div id="tab2" class="tab-pane hidden">Detailed Mode Stats coming soon...</div>
+            <div id="tab3" class="tab-pane hidden">Global Statistics coming soon...</div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-black/90 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-6 text-center text-zinc-500 text-sm">
+            <p>Premium Tiers v2.0 • Designed for seamless Discord Webhook + Bot sync</p>
+            <p class="mt-2">Press <span class="font-mono bg-zinc-900 px-2 py-1 rounded">F3</span> for Admin Panel</p>
+        </div>
+    </footer>
+
+    <!-- SECRET ADMIN PANEL -->
+    <div id="adminPanel" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] flex items-center justify-center">
+        <div class="bg-zinc-900 border border-cyan-400 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                <h3 class="text-2xl font-bold pixel-font">🔧 SECRET ADMIN PANEL</h3>
+                <button onclick="toggleAdminPanel()" class="text-3xl leading-none hover:text-red-400">×</button>
+            </div>
+            
+            <div class="p-8 grid grid-cols-2 gap-8">
+                <!-- Player Management -->
+                <div>
+                    <h4 class="uppercase text-xs tracking-widest mb-4 text-cyan-400">Manage Player</h4>
+                    <input id="adminPlayerName" placeholder="Username" class="w-full bg-black border border-white/20 rounded-2xl px-5 py-4 mb-4">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="adminAction('addTier')" 
+                                class="py-6 bg-emerald-600 hover:bg-emerald-500 rounded-2xl">Add Tier Points</button>
+                        <button onclick="adminAction('resetPlayer')" 
+                                class="py-6 bg-orange-600 hover:bg-orange-500 rounded-2xl">Reset Player</button>
+                    </div>
+                </div>
+                
+                <!-- Global Controls -->
+                <div>
+                    <h4 class="uppercase text-xs tracking-widest mb-4 text-cyan-400">Global Controls</h4>
+                    <div class="space-y-3">
+                        <button onclick="adminAction('seasonReset')" 
+                                class="w-full py-4 border border-red-500/50 hover:bg-red-500/10 text-red-400 rounded-2xl">Season Reset</button>
+                        <button onclick="adminAction('syncDiscord')" 
+                                class="w-full py-4 border border-cyan-400 hover:bg-cyan-400/10 text-cyan-400 rounded-2xl">Force Discord Sync</button>
+                        <button onclick="adminAction('exportData')" 
+                                class="w-full py-4 border border-white/30 hover:bg-white/5 rounded-2xl">Export All Data</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t border-white/10 text-center text-xs text-zinc-500">
+                Changes will sync instantly via webhook to your Discord bot.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data
+        let players = [
+            { rank: 1, name: "ShadowPvP", tier: "HT5", points: 1240, region: "EU", last: "2m ago" },
+            { rank: 2, name: "CrystalKing", tier: "LT4", points: 1180, region: "NA", last: "11m ago" },
+            { rank: 3, name: "DimaTheBeast", tier: "AT3", points: 1095, region: "EU", last: "47m ago" },
+            { rank: 4, name: "NovaSlasher", tier: "HT4", points: 980, region: "AS", last: "1h ago" },
+            { rank: 5, name: "PixelWarrior", tier: "LT3", points: 920, region: "EU", last: "3h ago" },
+        ];
+        
+        function populateLeaderboard(filteredPlayers = players) {
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = '';
+            
+            filteredPlayers.forEach(p => {
+                const row = document.createElement('tr');
+                row.className = 'leaderboard-row border-b border-white/10 last:border-0 hover:bg-cyan-500/5';
+                row.innerHTML = `
+                    <td class="py-6 px-8 font-mono text-cyan-400">${p.rank}</td>
+                    <td class="py-6 px-8 font-semibold">${p.name}</td>
+                    <td class="py-6 px-8 text-center">
+                        <span class="inline-block px-6 py-1 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-xs font-bold">${p.tier}</span>
+                    </td>
+                    <td class="py-6 px-8 text-center font-mono">${p.points}</td>
+                    <td class="py-6 px-8 text-center">${p.region}</td>
+                    <td class="py-6 px-8 text-right text-zinc-400">${p.last}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function switchTab(tabIndex) {
+            document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(`tab${tabIndex}`).classList.remove('hidden');
+        }
+        
+        function selectMode(btn, mode) {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active', 'border-cyan-400'));
+            btn.classList.add('active', 'border-cyan-400');
+            // In real app: filter by mode
+            console.log(`Switched to mode: ${mode}`);
+        }
+        
+        function filterRegion(btn) {
+            document.querySelectorAll('.flex.gap-2 button').forEach(b => b.classList.remove('active-tab', 'bg-cyan-400', 'text-black'));
+            btn.classList.add('active-tab', 'bg-cyan-400', 'text-black');
+        }
+        
+        function searchPlayers(e) {
+            if (e.key === "Enter") {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                const filtered = players.filter(p => p.name.toLowerCase().includes(query));
+                populateLeaderboard(filtered);
+            }
+        }
+        
+        // Admin Panel (F3)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F3') {
+                e.preventDefault();
+                toggleAdminPanel();
+            }
+        });
+        
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('hidden');
+        }
+        
+        function adminAction(action) {
+            const name = document.getElementById('adminPlayerName').value || "Unnamed Player";
+            alert(`✅ ADMIN ACTION EXECUTED\n\nAction: ${action}\nPlayer: ${name}\n\nWebhook sent to Discord. Database updated.`);
+            // In production: send POST to your backend webhook
+        }
+        
+        function toggleDiscordPanel() {
+            alert("🔗 Discord Webhook Config\n\nYour bot is connected.\nAll tier changes will sync instantly.\n\nStatus: ✅ LIVE");
+        }
+        
+        function showHowToJoin() {
+            alert("How to get tiered:\n\n1. Join your Minecraft server\n2. Play ranked matches\n3. Your stats are tracked automatically\n4. Results appear here within seconds via webhook");
+        }
+        
+        // Initialize
+        window.onload = function() {
+            populateLeaderboard();
+            
+            // Tailwind script already loaded
+            console.log('%cPremium Tiers v2.0 initialized. Press F3 for admin panel.', 'color: cyan; font-family: monospace');
+        };
+    </script>
+</body>
+</html>
