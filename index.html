@@ -93,14 +93,14 @@
                 <button onclick="toggleDiscordPanel()" 
                         class="px-5 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg flex items-center gap-2 hover:brightness-110 transition">
                     <i class="fab fa-discord"></i>
-                    <span>DISCORD SYNC</span>
+                    <span>DISCORD</span>
                 </button>
             </nav>
             
             <div class="flex items-center gap-4">
                 <div class="bg-zinc-900 px-4 py-2 rounded-2xl text-sm border border-cyan-500/20 flex items-center gap-2">
                     <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span>1,247 Online</span>
+                    <span>a Lot Users Online</span>
                 </div>
                 <input id="searchInput" 
                        type="text" 
@@ -287,7 +287,7 @@
         let players = [
             { rank: 1, name: "ShadowPvP", tier: "HT5", points: 1240, region: "EU", last: "2m ago" },
             { rank: 2, name: "CrystalKing", tier: "LT4", points: 1180, region: "NA", last: "11m ago" },
-            { rank: 3, name: "SilverKitkat", tier: "AT3", points: 1095, region: "EU", last: "47m ago" },
+            { rank: 3, name: "SilverKitkat", tier: "HT2", points: 1095, region: "EU", last: "47m ago" },
             { rank: 4, name: "NovaSlasher", tier: "HT4", points: 980, region: "AS", last: "1h ago" },
             { rank: 5, name: "PixelWarrior", tier: "LT3", points: 920, region: "EU", last: "3h ago" },
         ];
@@ -358,11 +358,11 @@
         }
         
         function toggleDiscordPanel() {
-            alert("🔗 Discord Webhook Config\n\nYour bot is connected.\nAll tier changes will sync instantly.\n\nStatus: ✅ LIVE");
+            alert("🔗 Discord Apply Link\n\nJoin through the link below\nAfter you get tier-tested, all tier changes will sync instantly.\n\nhttps://discord.gg/X6rQpb2CMw");
         }
         
         function showHowToJoin() {
-            alert("How to get tiered:\n\n1. Join your Minecraft server\n2. Play ranked matches\n3. Your stats are tracked automatically\n4. Results appear here within seconds via webhook");
+            alert("How to get tiered:\n\n1. Join our Discord server\n2. Play ranked matches\n3. Your stats are tracked automatically\n4. Results appear here within seconds via webhook");
         }
         
         // Initialize
